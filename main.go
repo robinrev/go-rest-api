@@ -12,6 +12,7 @@ import (
 // gorm.io/gorm => orm
 // gorm.io/driver/postgres => postgresql driver
 // github.com/joho/godotenv => access .env
+// github.com/shopspring/decimal => data type for calculating money
 
 func init() {
 	initializer.LoadEnv()
