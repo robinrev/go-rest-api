@@ -17,7 +17,15 @@ import (
 func init() {
 	initializer.LoadEnv()
 	initializer.DBConnection()
-	initializer.Migrate(&model.Company{}, &model.LogActivity{}, &model.LogApi{})
+	initializer.Migrate(&model.Company{},
+		&model.LogActivity{},
+		&model.LogApi{},
+		&model.Customer{},
+		&model.Role{},
+		&model.Employee{},
+		&model.Item{},
+		&model.Order{},
+		&model.OrderDetail{})
 }
 
 func main() {
