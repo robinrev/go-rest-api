@@ -9,24 +9,24 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/robinrev/go-rest-api/controller"
 	"github.com/robinrev/go-rest-api/service"
 )
 
 func RegisterRoutes(router *gin.Engine) {
 	router.Use(RequestTimingMiddleware())
-	routes := router.Group("/companies")
+	companyRoutes := router.Group("/companies")
 	{
-		routes.GET("/", service.GetAllCompany)
-		router.GET("/companies/:id", service.GetCompanyById)
-		// router.GET("/companies", service.GetCompanyByCompanyCode)
-		routes.PATCH("/:companyCode", service.UpdateCompany)
-		routes.POST("/", service.AddNewCompany)
+		companyRoutes.GET("/", service.GetAllCompany)
+		companyRoutes.GET("/:id", service.GetCompanyById)
+		companyRoutes.PATCH("/:companyCode", service.UpdateCompany)
+		companyRoutes.POST("/", service.AddNewCompany)
 	}
 
-	test := router.Group("/test")
+	customerRoutes := router.Group("/customers")
 	{
-		test.GET("/", controller.GetTodos)
+		customerRoutes.GET("/", service.GetAllCustomer)
+		customerRoutes.GET("/:id", service.GetCustomerById)
+		customerRoutes.POST("/", service.AddNewCustomer)
 	}
 }
 
