@@ -2,6 +2,7 @@ package repository
 
 import (
 	"errors"
+	"log"
 	"time"
 
 	"github.com/robinrev/go-rest-api/initializer"
@@ -10,10 +11,16 @@ import (
 	"gorm.io/gorm"
 )
 
-func GetAllCustomer() []model.Customer {
+func GetAllCustomer() ([]model.Customer, error) {
 	var data []model.Customer
-	initializer.DB.Find(&data)
-	return data
+	if err := initializer.DB.Find(&data).Error; err != nil {
+		return data, err
+	}
+
+	if len(data) == 0 {
+		return data, errors.New("no customers found")
+	}
+	return data, nil
 }
 
 func GetCustomerById(id string) (model.Customer, error) {
@@ -36,7 +43,11 @@ func AddNewCustomer(param model.Customer) error {
 	param.CreateDate = time.Now()
 	param.UpdateDate = time.Now()
 	param.RecordDate = time.Now()
+
 	result := initializer.DB.Create(&param)
+	if result.Error != nil {
+		log.Println("failed to add customer")
+	}
 	return result.Error
 }
 

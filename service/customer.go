@@ -11,7 +11,13 @@ import (
 
 func GetAllCustomer(context *gin.Context) {
 	log.Println("get all customer")
-	data := repository.GetAllCustomer()
+	data, err := repository.GetAllCustomer()
+
+	if err != nil {
+		log.Println("customer not found")
+		context.IndentedJSON(http.StatusNotFound, gin.H{"error": "customer not found"})
+		return
+	}
 	context.IndentedJSON(http.StatusOK, data)
 }
 
@@ -36,10 +42,11 @@ func AddNewCustomer(context *gin.Context) {
 	if err := context.BindJSON(&data); err != nil {
 		return
 	}
-	err := repository.AddNewCustomer(data)
 
-	if err != nil {
-		context.IndentedJSON(http.StatusInternalServerError, err)
+	if err := repository.AddNewCustomer(data); err != nil {
+		log.Println("Error inserting customer:", err)
+		context.IndentedJSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
 	}
 	context.IndentedJSON(http.StatusOK, data)
 }
