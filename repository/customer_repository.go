@@ -1,9 +1,7 @@
 package repository
 
 import (
-	"errors"
 	"log"
-	"time"
 
 	"github.com/robinrev/go-rest-api/initializer"
 	"github.com/robinrev/go-rest-api/model"
@@ -13,26 +11,25 @@ import (
 
 func GetAllCustomer() ([]model.Customer, error) {
 	var data []model.Customer
-	if err := initializer.DB.Find(&data).Error; err != nil {
-		return data, err
+	result := initializer.DB.Find(&data)
+
+	if result.Error != nil {
+		return nil, result.Error
+	} else if result.RowsAffected == 0 {
+		return nil, gorm.ErrRecordNotFound
 	}
 
-	if len(data) == 0 {
-		return data, errors.New("no customers found")
-	}
 	return data, nil
 }
 
 func GetCustomerById(id string) (model.Customer, error) {
 	var data model.Customer
+	result := initializer.DB.First(&data, "customer_id = ?", id)
 
-	// Fetch the customer with the given ID
-	if err := initializer.DB.First(&data, "customer_id = ?", id).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return data, err
-		}
-		// Handle any other database error
-		return data, err
+	if result.Error != nil {
+		return model.Customer{}, result.Error
+	} else if result.RowsAffected == 0 {
+		return model.Customer{}, gorm.ErrRecordNotFound
 	}
 
 	return data, nil
@@ -40,9 +37,6 @@ func GetCustomerById(id string) (model.Customer, error) {
 
 func AddNewCustomer(param model.Customer) error {
 	AddNewLogActivity(util.LOG_ACTIVITY_ADD_CUSTOMER)
-	param.CreateDate = time.Now()
-	param.UpdateDate = time.Now()
-	param.RecordDate = time.Now()
 
 	result := initializer.DB.Create(&param)
 	if result.Error != nil {
@@ -52,7 +46,6 @@ func AddNewCustomer(param model.Customer) error {
 }
 
 func UpdateCustomer(param model.Customer) error {
-	param.UpdateDate = time.Now()
 	result := initializer.DB.Save(&param)
 	return result.Error
 }
