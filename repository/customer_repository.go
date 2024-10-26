@@ -58,13 +58,7 @@ func AddNewCustomer(param model.Customer) error {
 	return result.Error
 }
 
-// func UpdateCustomer(param model.Customer) error {
-// 	result := initializer.DB.Save(&param)
-// 	return result.Error
-// }
-
 func UpdateCustomer(customerID int, updateFields map[string]interface{}) error {
-	// Use GORM's Updates method to update only the fields in the map
 	result := initializer.DB.Model(&model.Customer{}).Where("customer_id = ?", customerID).Updates(updateFields)
 	return result.Error
 }
