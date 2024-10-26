@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	dtocoverter "github.com/robinrev/go-rest-api/dto_coverter"
+	"github.com/robinrev/go-rest-api/dtoconverter"
 	"github.com/robinrev/go-rest-api/model"
 	"github.com/robinrev/go-rest-api/service"
 	"github.com/robinrev/go-rest-api/util"
@@ -30,7 +30,7 @@ func GetAllCustomer(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusOK, util.Response{ErrorCode: util.ERROR_CODE_SUCCESS,
 		Message: util.MESSAGE_SUCCESS,
-		Data:    dtocoverter.CustomerListModelToDto(data)})
+		Data:    dtoconverter.CustomerListModelToDto(data)})
 }
 
 func GetAllCustomersByCompany(c *gin.Context) {
@@ -59,7 +59,7 @@ func GetAllCustomersByCompany(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusOK, util.Response{ErrorCode: util.ERROR_CODE_SUCCESS,
 		Message: util.MESSAGE_SUCCESS,
-		Data:    dtocoverter.CustomerListModelToDto(data)})
+		Data:    dtoconverter.CustomerListModelToDto(data)})
 }
 
 func GetCustomerById(c *gin.Context) {
@@ -80,7 +80,7 @@ func GetCustomerById(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusOK, util.Response{ErrorCode: util.ERROR_CODE_SUCCESS,
 		Message: util.MESSAGE_SUCCESS,
-		Data:    dtocoverter.CustomerModelToDto(result)})
+		Data:    dtoconverter.CustomerModelToDto(result)})
 }
 
 func AddNewCustomer(c *gin.Context) {
@@ -103,7 +103,7 @@ func AddNewCustomer(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusOK, util.Response{ErrorCode: util.ERROR_CODE_SUCCESS,
 		Message: util.MESSAGE_SUCCESS,
-		Data:    dtocoverter.CustomerModelToDto(data)})
+		Data:    dtoconverter.CustomerModelToDto(data)})
 }
 
 func UpdateCustomer(c *gin.Context) {
@@ -138,5 +138,5 @@ func UpdateCustomer(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusOK, util.Response{ErrorCode: util.ERROR_CODE_SUCCESS,
 		Message: util.MESSAGE_SUCCESS,
-		Data:    dtocoverter.CustomerModelToDto(updatedCustomer)})
+		Data:    dtoconverter.CustomerModelToDto(updatedCustomer)})
 }

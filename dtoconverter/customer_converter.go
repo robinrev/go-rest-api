@@ -1,4 +1,4 @@
-package dtocoverter
+package dtoconverter
 
 import (
 	"github.com/robinrev/go-rest-api/dto"

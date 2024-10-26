@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	dtocoverter "github.com/robinrev/go-rest-api/dto_coverter"
+	"github.com/robinrev/go-rest-api/dtoconverter"
 	"github.com/robinrev/go-rest-api/model"
 	"github.com/robinrev/go-rest-api/service"
 	"github.com/robinrev/go-rest-api/util"
@@ -30,7 +30,7 @@ func GetAllCompanies(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusOK, util.Response{ErrorCode: util.ERROR_CODE_SUCCESS,
 		Message: util.MESSAGE_SUCCESS,
-		Data:    dtocoverter.CompanyListModelToDto(datas)})
+		Data:    dtoconverter.CompanyListModelToDto(datas)})
 }
 
 func GetCompanyById(c *gin.Context) {
@@ -51,7 +51,7 @@ func GetCompanyById(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusOK, util.Response{ErrorCode: util.ERROR_CODE_SUCCESS,
 		Message: util.MESSAGE_SUCCESS,
-		Data:    dtocoverter.CompanyModelToDto(result)})
+		Data:    dtoconverter.CompanyModelToDto(result)})
 }
 
 func AddNewCompany(c *gin.Context) {
@@ -74,7 +74,7 @@ func AddNewCompany(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusOK, util.Response{ErrorCode: util.ERROR_CODE_SUCCESS,
 		Message: util.MESSAGE_SUCCESS,
-		Data:    dtocoverter.CompanyModelToDto(data)})
+		Data:    dtoconverter.CompanyModelToDto(data)})
 }
 
 func UpdateCompany(c *gin.Context) {
@@ -109,5 +109,5 @@ func UpdateCompany(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusOK, util.Response{ErrorCode: util.ERROR_CODE_SUCCESS,
 		Message: util.MESSAGE_SUCCESS,
-		Data:    dtocoverter.CompanyModelToDto(updatedCompany)})
+		Data:    dtoconverter.CompanyModelToDto(updatedCompany)})
 }
