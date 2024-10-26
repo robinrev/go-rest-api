@@ -37,14 +37,48 @@ func AddNewCustomer(data model.Customer) error {
 	return nil
 }
 
-func UpdateCustomer(updateData model.Customer, newData model.Customer) (model.Customer, error) {
+func UpdateCustomer(existingData model.Customer, newData model.Customer) (model.Customer, error) {
 	log.Println("update customer")
-	updateData.CustomerName = newData.CustomerName
-	updateData.Address = newData.Address
-	updateData.Email = newData.Email
-	updateData.Phone = newData.Phone
-	updateData.UpdateDate = time.Now()
 
-	err := repository.UpdateCustomer(updateData)
-	return updateData, err
+	updateFields := make(map[string]interface{})
+
+	if newData.Address != "" {
+		updateFields["address"] = newData.Address
+	}
+
+	if newData.BirthDate != "" {
+		updateFields["birth_date"] = newData.BirthDate
+	}
+
+	if newData.BirthPlace != "" {
+		updateFields["birth_place"] = newData.BirthPlace
+	}
+
+	if newData.CustomerName != "" {
+		updateFields["customer_name"] = newData.CustomerName
+	}
+
+	if newData.Email != "" {
+		updateFields["email"] = newData.Email
+	}
+
+	if newData.Password != "" {
+		updateFields["password"] = newData.Password
+	}
+
+	if newData.Username != "" {
+		updateFields["username"] = newData.Username
+	}
+
+	if newData.LoyaltyPoint != 0 {
+		updateFields["loyalty_point"] = newData.LoyaltyPoint
+	}
+
+	updateFields["update_date"] = time.Now()
+
+	err := repository.UpdateCustomer(existingData.CustomerID, updateFields)
+	if err != nil {
+		return model.Customer{}, err
+	}
+	return existingData, nil
 }

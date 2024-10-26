@@ -65,13 +65,13 @@ func AddNewCustomer(c *gin.Context) {
 }
 
 func UpdateCustomer(c *gin.Context) {
-	var data model.Customer
-	if err := c.BindJSON(&data); err != nil {
+	var newData model.Customer
+	if err := c.BindJSON(&newData); err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{util.HTTP_ERROR: err})
 		return
 	}
 
-	result, err := service.GetCustomerById(strconv.Itoa(data.CustomerID))
+	existingData, err := service.GetCustomerById(strconv.Itoa(newData.CustomerID))
 
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -83,12 +83,14 @@ func UpdateCustomer(c *gin.Context) {
 		}
 	}
 
-	updatedCustomer, err := service.UpdateCustomer(result, data)
+	updatedCustomer, err := service.UpdateCustomer(existingData, newData)
 
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{util.HTTP_ERROR: err})
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, updatedCustomer)
+	c.IndentedJSON(http.StatusOK, util.Response{ErrorCode: util.ERROR_CODE_SUCCESS,
+		Message: util.MESSAGE_SUCCESS,
+		Data:    updatedCustomer})
 }

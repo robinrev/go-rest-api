@@ -13,7 +13,7 @@ type Customer struct {
 	Address      string `gorm:"column:address;type:text" json:"address"`
 	LastLogin    string `gorm:"column:last_login;type:timestamp" json:"lastLogin"`
 	GeneralTime
-	Orders    []Order `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"orders"`
+	Orders    []Order `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"orders,omitempty"`
 	CompanyID int     `gorm:"column:company_id;not null" json:"companyId"`
 }
 
