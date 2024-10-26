@@ -14,6 +14,11 @@ func GetAllCustomer() ([]model.Customer, error) {
 	return repository.GetAllCustomer()
 }
 
+func GetAllCustomersByCompany(companyID int) ([]model.Customer, error) {
+	log.Println("get all customer")
+	return repository.GetAllCustomersByCompany(companyID)
+}
+
 func GetCustomerById(id string) (model.Customer, error) {
 	log.Println("get customer by id :", id)
 	return repository.GetCustomerById(id)
@@ -29,6 +34,7 @@ func AddNewCustomer(data model.Customer) error {
 	data.CreateDate = time.Now()
 	data.UpdateDate = time.Now()
 	data.RecordDate = time.Now()
+	data.LastLogin = time.Time{}
 
 	if err := repository.AddNewCustomer(data); err != nil {
 		log.Println("Error inserting customer:", err)
@@ -72,6 +78,10 @@ func UpdateCustomer(existingData model.Customer, newData model.Customer) (model.
 
 	if newData.LoyaltyPoint != 0 {
 		updateFields["loyalty_point"] = newData.LoyaltyPoint
+	}
+
+	if newData.LoyaltyPoint != 0 {
+		updateFields["last_login"] = newData.LastLogin
 	}
 
 	updateFields["update_date"] = time.Now()

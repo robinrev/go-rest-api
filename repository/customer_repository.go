@@ -22,6 +22,19 @@ func GetAllCustomer() ([]model.Customer, error) {
 	return data, nil
 }
 
+func GetAllCustomersByCompany(companyID int) ([]model.Customer, error) {
+	var data []model.Customer
+	result := initializer.DB.Where("company_id = ?", companyID).Find(&data)
+
+	if result.Error != nil {
+		return nil, result.Error
+	} else if result.RowsAffected == 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
+
+	return data, nil
+}
+
 func GetCustomerById(id string) (model.Customer, error) {
 	var data model.Customer
 	result := initializer.DB.First(&data, "customer_id = ?", id)
