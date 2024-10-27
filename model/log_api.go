@@ -13,6 +13,7 @@ type LogApi struct {
 	RequestBody  string `gorm:"column:request_body" json:"requestBody"`
 	ResponseBody string `gorm:"column:response_body" json:"responseBody"`
 	HttpResponse string `gorm:"column:http_response;type:varchar(10)" json:"httpResponse"`
+	TimeDuration string `gorm:"column:time_duration;type:varchar(50)" json:"timeDuration"`
 	GeneralTime
 }
 

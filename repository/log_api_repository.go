@@ -9,6 +9,8 @@ import (
 
 func AddNewLogApi(logApi model.LogApi) error {
 	logApi.RecordDate = time.Now()
+	logApi.CreateDate = time.Now()
+	logApi.UpdateDate = time.Now()
 	result := initializer.DB.Create(&logApi)
 	return result.Error
 }
